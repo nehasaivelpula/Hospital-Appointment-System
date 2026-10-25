@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarePoint Hospital</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>CarePoint Hospital</h1>
+        <p>Your health, our priority.</p>
+    </header>
+
+    <main>
+        <section class="doctors">
+            <h2>Our Doctors</h2>
+            {% for doctor in doctors %}
+            <div class="doctor-card">
+                <h3>{{ doctor.name }}</h3>
+                <p>{{ doctor.specialization }}</p>
+            </div>
+            {% endfor %}
+        </section>
+
+        <section class="booking">
+            <h2>Book an Appointment</h2>
+
+            <form action="/book" method="POST">
+                <label>Patient Name</label>
+                <input type="text" name="name" required>
+
+                <label>Email Address</label>
+                <input type="email" name="email" required>
+
+                <label>Select Doctor</label>
+                <select name="doctor" required>
+                    <option value="">Choose a doctor</option>
+                    {% for doctor in doctors %}
+                    <option value="{{ doctor.id }}">
+                        {{ doctor.name }} - {{ doctor.specialization }}
+                    </option>
+                    {% endfor %}
+                </select>
+
+                <label>Appointment Date</label>
+                <input type="date" name="date" min="{{ today }}" required>
+
+                <button type="submit">Book Appointment</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
